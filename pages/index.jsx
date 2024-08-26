@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -49,21 +51,19 @@ function ErrorFallback({error, resetErrorBoundary}) {
 }
 
 const ButtonOption = ({ href, text, onClick }) => (
-  <Link href={href}>
-    <a className="w-full" onClick={onClick}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, x: '-100%' }}
-        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
-      >
-        <span className="text-xl font-semibold">{text}</span>
-        <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
-      </motion.div>
-    </a>
+  <Link href={href} onClick={onClick} className="w-full">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: '-100%' }}
+      whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
+    >
+      <span className="text-xl font-semibold">{text}</span>
+      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
+    </motion.div>
   </Link>
 )
 
@@ -214,18 +214,27 @@ export default function Component() {
             >
               <motion.h1 
                 className="text-5xl font-bold text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
               >
                 我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
               </motion.h1>
 
               <motion.p
                 className="text-3xl font-light"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
               >
                 我想...
               </motion.p>
 
               <motion.div
                 className="flex flex-col items-center space-y-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
               >
                 {userType === 'normal' ? (
                   <>
