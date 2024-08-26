@@ -54,8 +54,8 @@ export default function Component() {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
-    const timer1 = setTimeout(() => setStep(1), 2000)
-    const timer2 = setTimeout(() => setStep(2), 4000)
+    const timer1 = setTimeout(() => setStep(1), 1000)
+    const timer2 = setTimeout(() => setStep(2), 2000)
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
@@ -70,7 +70,7 @@ export default function Component() {
         <motion.div 
           className="flex flex-col items-center justify-center space-y-8"
           layout
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <AnimatePresence>
             {step >= 0 && (
@@ -79,8 +79,8 @@ export default function Component() {
                 layout
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
-                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.3 }}
                 className="text-5xl font-bold text-center"
               >
                 欢迎使用<br />中视前卫员工工作台
@@ -95,8 +95,8 @@ export default function Component() {
                 layout
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
-                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.3 }}
                 className="text-3xl font-light"
               >
                 我是...
@@ -111,8 +111,8 @@ export default function Component() {
                 layout
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
-                transition={{ duration: 0.5, staggerChildren: 0.1 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.3, staggerChildren: 0.1 }}
                 className="flex flex-col items-center space-y-4"
               >
                 <Link href="https://cpec.cc">
@@ -122,10 +122,11 @@ export default function Component() {
                       animate={{ opacity: 1, y: 0 }}
                       whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-300 ease-in-out group"
+                      transition={{ duration: 0.1 }}
+                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
                     >
                       <span className="text-xl font-semibold">职员老师</span>
-                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
                     </motion.div>
                   </a>
                 </Link>
@@ -136,10 +137,11 @@ export default function Component() {
                       animate={{ opacity: 1, y: 0 }}
                       whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-300 ease-in-out group"
+                      transition={{ duration: 0.1 }}
+                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
                     >
                       <span className="text-xl font-semibold">管理老师</span>
-                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
                     </motion.div>
                   </a>
                 </Link>
