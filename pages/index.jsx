@@ -100,11 +100,7 @@ export default function Component() {
     out: { 
       opacity: 0, 
       x: '-100%',
-      transition: {
-        type: 'tween',
-        ease: 'easeInOut',
-        duration: 0.3,
-      }
+      scale: 1,
     }
   }
 
@@ -143,10 +139,6 @@ export default function Component() {
     exit: { 
       opacity: 0, 
       x: '-100%',
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
     }
   }
 
