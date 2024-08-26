@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
@@ -38,7 +38,7 @@ const Particles = () => {
   )
 }
 
-function ErrorFallback({error, resetErrorBoundary}: {error: Error; resetErrorBoundary: () => void}) {
+function ErrorFallback({error, resetErrorBoundary}) {
   return (
     <div role="alert" className="text-red-500">
       <p>Something went wrong:</p>
@@ -48,13 +48,7 @@ function ErrorFallback({error, resetErrorBoundary}: {error: Error; resetErrorBou
   )
 }
 
-interface ButtonOptionProps {
-  href: string;
-  text: string;
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-}
-
-const ButtonOption: React.FC<ButtonOptionProps> = ({ href, text, onClick }) => (
+const ButtonOption = ({ href, text, onClick }) => (
   <Link href={href}>
     <a className="w-full" onClick={onClick}>
       <motion.div
@@ -75,7 +69,7 @@ const ButtonOption: React.FC<ButtonOptionProps> = ({ href, text, onClick }) => (
 
 export default function Component() {
   const [step, setStep] = useState(0)
-  const [userType, setUserType] = useState<'normal' | 'admin' | null>(null)
+  const [userType, setUserType] = useState(null)
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
@@ -86,14 +80,14 @@ export default function Component() {
     }
   }, [])
 
-  const handleUserTypeSelect = (type: 'normal' | 'admin') => (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleUserTypeSelect = (type) => (e) => {
     e.preventDefault()
     setUserType(type)
     setStep(3)
   }
 
   const pageVariants = {
-    initial: (custom: number) => ({
+    initial: (custom) => ({
       opacity: 0,
       x: custom === 0 ? 0 : '100%',
       scale: custom === 0 ? 0.8 : 1,
