@@ -87,21 +87,67 @@ export default function Component() {
   }
 
   const pageVariants = {
-    initial: { opacity: 0, x: '100%' },
-    in: { opacity: 1, x: 0 },
-    out: { opacity: 0, x: '-100%' }
+    initial: (custom) => ({
+      opacity: 0,
+      x: custom === 0 ? 0 : '100%',
+      scale: custom === 0 ? 0.8 : 1,
+    }),
+    in: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+    },
+    out: { 
+      opacity: 0, 
+      x: '-100%',
+      transition: {
+        type: 'tween',
+        ease: 'easeInOut',
+        duration: 0.3,
+      }
+    }
   }
 
-  const contentVariants = {
-    initial: { opacity: 0, y: 20 },
-    in: { opacity: 1, y: 0 },
-    out: { opacity: 0, y: 0 }
-  }
-
-  const transition = {
+  const pageTransition = {
     type: 'tween',
     ease: 'anticipate',
     duration: 0.5
+  }
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.5, 
+        ease: "easeInOut",
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      x: '-100%',
+      transition: { 
+        duration: 0.3, 
+        ease: "easeInOut",
+        when: "beforeChildren",
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { 
+      opacity: 0, 
+      x: '-100%',
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
   }
 
   return (
@@ -113,35 +159,38 @@ export default function Component() {
           {step < 3 ? (
             <motion.div 
               key="page1"
-              className="absolute inset-0 flex flex-col items-center justify-center"
+              className="flex flex-col items-center justify-center space-y-8"
+              custom={0}
               initial="initial"
               animate="in"
               exit="out"
               variants={pageVariants}
-              transition={transition}
+              transition={pageTransition}
             >
-              <motion.div 
-                className="flex flex-col items-center justify-center space-y-8"
-                variants={contentVariants}
-                initial="initial"
-                animate="in"
-                exit="out"
-                transition={transition}
-              >
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit">
                 <motion.h1 
+                  variants={itemVariants}
                   className="text-5xl font-bold text-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 >
                   欢迎使用<br />编辑组业务工作台
                 </motion.h1>
+              </motion.div>
 
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit">
                 {step >= 1 && (
                   <motion.p
+                    variants={itemVariants}
                     className="text-3xl font-light"
                   >
                     我是...
                   </motion.p>
                 )}
+              </motion.div>
 
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit">
                 {step >= 2 && (
                   <motion.div
                     className="flex flex-col items-center space-y-4"
@@ -155,50 +204,42 @@ export default function Component() {
           ) : (
             <motion.div
               key="page2"
-              className="absolute inset-0 flex flex-col items-center justify-center"
+              className="flex flex-col items-center justify-center space-y-8"
+              custom={1}
               initial="initial"
               animate="in"
               exit="out"
               variants={pageVariants}
-              transition={transition}
+              transition={pageTransition}
             >
-              <motion.div 
-                className="flex flex-col items-center justify-center space-y-8"
-                variants={contentVariants}
-                initial="initial"
-                animate="in"
-                exit="out"
-                transition={transition}
+              <motion.h1 
+                className="text-5xl font-bold text-center"
               >
-                <motion.h1 
-                  className="text-5xl font-bold text-center"
-                >
-                  我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
-                </motion.h1>
+                我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
+              </motion.h1>
 
-                <motion.p
-                  className="text-3xl font-light"
-                >
-                  我想...
-                </motion.p>
+              <motion.p
+                className="text-3xl font-light"
+              >
+                我想...
+              </motion.p>
 
-                <motion.div
-                  className="flex flex-col items-center space-y-4"
-                >
-                  {userType === 'normal' ? (
-                    <>
-                      <ButtonOption href="#" text="查询个人信息" />
-                      <ButtonOption href="#" text="查询每月排班" />
-                      <ButtonOption href="#" text="访问软件大全" />
-                    </>
-                  ) : (
-                    <>
-                      <ButtonOption href="#" text="管理个人信息" />
-                      <ButtonOption href="#" text="管理每月排班" />
-                      <ButtonOption href="#" text="访问软件大全" />
-                    </>
-                  )}
-                </motion.div>
+              <motion.div
+                className="flex flex-col items-center space-y-4"
+              >
+                {userType === 'normal' ? (
+                  <>
+                    <ButtonOption href="#" text="查询个人信息" />
+                    <ButtonOption href="#" text="查询每月排班" />
+                    <ButtonOption href="#" text="访问软件大全" />
+                  </>
+                ) : (
+                  <>
+                    <ButtonOption href="#" text="管理个人信息" />
+                    <ButtonOption href="#" text="管理每月排班" />
+                    <ButtonOption href="#" text="访问软件大全" />
+                  </>
+                )}
               </motion.div>
             </motion.div>
           )}
