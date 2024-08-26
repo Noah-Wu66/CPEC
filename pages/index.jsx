@@ -97,7 +97,7 @@ export default function Component() {
   const pageVariants = {
     initial: (custom) => ({
       opacity: 0,
-      x: custom * 100 + '%',
+      x: custom === 0 ? 0 : custom * 100 + '%', // 如果 custom 是 0，保持在中间
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
@@ -123,7 +123,10 @@ export default function Component() {
   }
 
   const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: (custom) => ({
+      opacity: 0,
+      y: custom === 0 ? 0 : 20, // 如果 custom 是 0，保持 y 位置不变
+    }),
     visible: { 
       opacity: 1, 
       y: 0,
