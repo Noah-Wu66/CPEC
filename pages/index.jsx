@@ -83,7 +83,7 @@ export default function Component() {
                 transition={{ duration: 0.3 }}
                 className="text-5xl font-bold text-center"
               >
-                欢迎使用<br />中视前卫员工工作台
+                欢迎使用<br />编辑组业务工作台
               </motion.h1>
             )}
           </AnimatePresence>
@@ -125,7 +125,7 @@ export default function Component() {
                       transition={{ duration: 0.1 }}
                       className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
                     >
-                      <span className="text-xl font-semibold">职员老师</span>
+                      <span className="text-xl font-semibold">普通用户</span>
                       <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
                     </motion.div>
                   </a>
@@ -140,7 +140,7 @@ export default function Component() {
                       transition={{ duration: 0.1 }}
                       className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
                     >
-                      <span className="text-xl font-semibold">管理老师</span>
+                      <span className="text-xl font-semibold">管理用户</span>
                       <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
                     </motion.div>
                   </a>
