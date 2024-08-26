@@ -7,7 +7,11 @@ import { ChevronRight } from 'lucide-react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 const Particles = () => {
-  const particleCount = typeof window !== 'undefined' && window.innerWidth > 768 ? 50 : 25;
+  const [particleCount, setParticleCount] = useState(25);
+
+  useEffect(() => {
+    setParticleCount(window.innerWidth > 768 ? 50 : 25);
+  }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
