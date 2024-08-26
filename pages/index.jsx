@@ -70,11 +70,12 @@ const ButtonOption = ({ href, text, onClick }) => (
 export default function Component() {
   const [step, setStep] = useState(0)
   const [userType, setUserType] = useState(null)
-  const [direction, setDirection] = useState(1) // 1 for right, -1 for left
+  const [direction, setDirection] = useState(0) // 初始为 0，确保第一次从中间淡入
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
     const timer2 = setTimeout(() => setStep(2), 2000)
+
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
@@ -85,13 +86,13 @@ export default function Component() {
     e.preventDefault()
     setUserType(type)
     setStep(3)
-    setDirection(1)
+    setDirection(1) // 设置为 1，后续从右侧飞入
   }
 
   const handleBackToUserTypeSelection = () => {
     setStep(2);
     setUserType(null);
-    setDirection(-1);
+    setDirection(-1); // 设置为 -1，后续从左侧飞入
   };
 
   const pageVariants = {
@@ -177,6 +178,7 @@ export default function Component() {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
+              onAnimationComplete={() => setDirection(1)} // 动画完成后，将方向设置为 1
             >
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
