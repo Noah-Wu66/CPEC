@@ -50,8 +50,28 @@ function ErrorFallback({error, resetErrorBoundary}) {
   )
 }
 
+const ButtonOption = ({ href, text, onClick }) => (
+  <Link href={href}>
+    <a className="w-full" onClick={onClick}>
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+        className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
+      >
+        <span className="text-xl font-semibold">{text}</span>
+        <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
+      </motion.div>
+    </a>
+  </Link>
+)
+
 export default function Component() {
   const [step, setStep] = useState(0)
+  const [userType, setUserType] = useState(null)
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
@@ -61,6 +81,11 @@ export default function Component() {
       clearTimeout(timer2)
     }
   }, [])
+
+  const handleUserTypeSelect = (type) => {
+    setUserType(type)
+    setStep(3)
+  }
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -83,13 +108,13 @@ export default function Component() {
                 transition={{ duration: 0.3 }}
                 className="text-5xl font-bold text-center"
               >
-                欢迎使用<br />编辑组业务工作台
+                {userType ? `我是...${userType === 'normal' ? '普通用户' : '管理用户'}` : '欢迎使用\n编辑组业务工作台'}
               </motion.h1>
             )}
           </AnimatePresence>
 
           <AnimatePresence>
-            {step >= 1 && (
+            {step >= 1 && step < 3 && (
               <motion.p
                 key="iam"
                 layout
@@ -105,7 +130,7 @@ export default function Component() {
           </AnimatePresence>
 
           <AnimatePresence>
-            {step >= 2 && (
+            {step >= 2 && step < 3 && (
               <motion.div
                 key="options"
                 layout
@@ -115,36 +140,47 @@ export default function Component() {
                 transition={{ duration: 0.3, staggerChildren: 0.1 }}
                 className="flex flex-col items-center space-y-4"
               >
-                <Link href="https://cpec.cc">
-                  <a className="w-full">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.1 }}
-                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
-                    >
-                      <span className="text-xl font-semibold">普通用户</span>
-                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
-                    </motion.div>
-                  </a>
-                </Link>
-                <Link href="https://cpec2.cc">
-                  <a className="w-full">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.1 }}
-                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
-                    >
-                      <span className="text-xl font-semibold">管理用户</span>
-                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
-                    </motion.div>
-                  </a>
-                </Link>
+                <ButtonOption href="#" text="普通用户" onClick={() => handleUserTypeSelect('normal')} />
+                <ButtonOption href="#" text="管理用户" onClick={() => handleUserTypeSelect('admin')} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {step >= 3 && (
+              <motion.div
+                key="subOptions"
+                layout
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.3, staggerChildren: 0.1 }}
+                className="flex flex-col items-center space-y-4"
+              >
+                <motion.p
+                  key="iwant"
+                  layout
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.3 }}
+                  className="text-3xl font-light mb-4"
+                >
+                  我想...
+                </motion.p>
+                {userType === 'normal' ? (
+                  <>
+                    <ButtonOption href="#" text="查询个人信息" />
+                    <ButtonOption href="#" text="查询每月排班" />
+                    <ButtonOption href="#" text="访问软件大全" />
+                  </>
+                ) : (
+                  <>
+                    <ButtonOption href="#" text="管理个人信息" />
+                    <ButtonOption href="#" text="管理每月排班" />
+                    <ButtonOption href="#" text="访问软件大全" />
+                  </>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
