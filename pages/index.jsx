@@ -70,6 +70,7 @@ const ButtonOption = ({ href, text, onClick }) => (
 export default function Component() {
   const [step, setStep] = useState(0)
   const [userType, setUserType] = useState(null)
+  const [direction, setDirection] = useState(1) // 1 for right, -1 for left
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
@@ -84,12 +85,19 @@ export default function Component() {
     e.preventDefault()
     setUserType(type)
     setStep(3)
+    setDirection(1)
   }
+
+  const handleBackToUserTypeSelection = () => {
+    setStep(2);
+    setUserType(null);
+    setDirection(-1);
+  };
 
   const pageVariants = {
     initial: (custom) => ({
       opacity: 0,
-      x: custom === 0 ? 0 : '100%',
+      x: custom * 100 + '%',
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
@@ -97,15 +105,15 @@ export default function Component() {
       x: 0,
       scale: 1,
     },
-    out: { 
+    out: (custom) => ({ 
       opacity: 0, 
-      x: '-100%',
+      x: custom * -100 + '%',
       transition: {
         type: 'tween',
         ease: 'easeInOut',
         duration: 0.3,
       }
-    }
+    })
   }
 
   const pageTransition = {
@@ -126,28 +134,28 @@ export default function Component() {
         staggerChildren: 0.1
       }
     },
-    exit: { 
+    exit: (custom) => ({ 
       opacity: 0, 
-      x: '-100%',
+      x: custom * -100 + '%',
       transition: { 
         duration: 0.3, 
         ease: "easeInOut",
         when: "beforeChildren",
       }
-    }
+    })
   }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-    exit: { 
+    exit: (custom) => ({ 
       opacity: 0, 
-      x: '-100%',
+      x: custom * -100 + '%',
       transition: {
         duration: 0.3,
         ease: "easeInOut"
       }
-    }
+    })
   }
 
   return (
@@ -155,19 +163,19 @@ export default function Component() {
       <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 text-blue-800 overflow-hidden">
         <Particles />
         
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           {step < 3 ? (
             <motion.div 
               key="page1"
               className="flex flex-col items-center justify-center space-y-8"
-              custom={0}
+              custom={direction}
               initial="initial"
               animate="in"
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
             >
-              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit">
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
                   variants={itemVariants}
                   className="text-5xl font-bold text-center"
@@ -179,7 +187,7 @@ export default function Component() {
                 </motion.h1>
               </motion.div>
 
-              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit">
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 {step >= 1 && (
                   <motion.p
                     variants={itemVariants}
@@ -190,7 +198,7 @@ export default function Component() {
                 )}
               </motion.div>
 
-              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit">
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 {step >= 2 && (
                   <motion.div
                     className="flex flex-col items-center space-y-4"
@@ -205,7 +213,7 @@ export default function Component() {
             <motion.div
               key="page2"
               className="flex flex-col items-center justify-center space-y-8"
-              custom={1}
+              custom={direction}
               initial="initial"
               animate="in"
               exit="out"
@@ -249,6 +257,7 @@ export default function Component() {
                     <ButtonOption href="#" text="访问软件大全" />
                   </>
                 )}
+                <ButtonOption href="#" text="返回身份选择" onClick={handleBackToUserTypeSelection} />
               </motion.div>
             </motion.div>
           )}
