@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -14,7 +12,7 @@ const Particles = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
       {[...Array(particleCount)].map((_, i) => (
         <motion.div
           key={i}
@@ -43,9 +41,11 @@ const Particles = () => {
 function ErrorFallback({error, resetErrorBoundary}) {
   return (
     <div role="alert" className="text-red-500">
-      <p>Something went wrong:</p>
+      <p>出现错误：</p>
       <pre>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
+      <button onClick={resetErrorBoundary} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+        重试
+      </button>
     </div>
   )
 }
@@ -72,7 +72,7 @@ export default function Component() {
           layout
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {step >= 0 && (
               <motion.h1 
                 key="welcome"
@@ -88,7 +88,7 @@ export default function Component() {
             )}
           </AnimatePresence>
 
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {step >= 1 && (
               <motion.p
                 key="iam"
@@ -104,7 +104,7 @@ export default function Component() {
             )}
           </AnimatePresence>
 
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {step >= 2 && (
               <motion.div
                 key="options"
@@ -115,29 +115,33 @@ export default function Component() {
                 transition={{ duration: 0.5, staggerChildren: 0.1 }}
                 className="flex flex-col items-center space-y-4"
               >
-                <Link href="https://cpec.cc" passHref>
-                  <motion.a
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-300 ease-in-out group"
-                  >
-                    <span className="text-xl font-semibold">职员老师</span>
-                    <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
-                  </motion.a>
+                <Link href="https://cpec.cc">
+                  <a className="w-full">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-300 ease-in-out group"
+                    >
+                      <span className="text-xl font-semibold">职员老师</span>
+                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
+                    </motion.div>
+                  </a>
                 </Link>
-                <Link href="https://cpec2.cc" passHref>
-                  <motion.a
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-300 ease-in-out group"
-                  >
-                    <span className="text-xl font-semibold">管理老师</span>
-                    <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
-                  </motion.a>
+                <Link href="https://cpec2.cc">
+                  <a className="w-full">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-300 ease-in-out group"
+                    >
+                      <span className="text-xl font-semibold">管理老师</span>
+                      <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
+                    </motion.div>
+                  </a>
                 </Link>
               </motion.div>
             )}
