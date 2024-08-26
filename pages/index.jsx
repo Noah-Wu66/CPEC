@@ -40,7 +40,7 @@ const Particles = () => {
   )
 }
 
-function ErrorFallback({error, resetErrorBoundary}) {
+function ErrorFallback({ error, resetErrorBoundary }) {
   return (
     <div role="alert" className="text-red-500">
       <p>Something went wrong:</p>
@@ -192,6 +192,9 @@ export default function Component() {
                   <motion.p
                     variants={itemVariants}
                     className="text-3xl font-light"
+                    initial={direction === -1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                   >
                     我是...
                   </motion.p>
@@ -220,17 +223,14 @@ export default function Component() {
               variants={pageVariants}
               transition={pageTransition}
             >
-              {step >= 1 && (
-  <motion.p
-    variants={itemVariants}
-    className="text-3xl font-light"
-    initial={direction === -1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, ease: "easeInOut" }}
-  >
-    我是...
-  </motion.p>
-)}
+              <motion.h1 
+                className="text-5xl font-bold text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
+              </motion.h1>
 
               <motion.p
                 className="text-3xl font-light"
