@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
-import { ErrorBoundary } from 'react-error-boundary'
+import React, { useState, useEffect, memo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const Particles = () => {
   const [particleCount, setParticleCount] = useState(25);
@@ -22,8 +22,8 @@ const Particles = () => {
           style={{
             width: Math.random() * 5 + 1,
             height: Math.random() * 5 + 1,
-            top: ${Math.random() * 100}%,
-            left: ${Math.random() * 100}%,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
           }}
           animate={{
             y: [0, Math.random() * 100 - 50],
@@ -37,8 +37,8 @@ const Particles = () => {
         />
       ))}
     </div>
-  )
-}
+  );
+};
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -47,10 +47,10 @@ function ErrorFallback({ error, resetErrorBoundary }) {
       <pre>{error.message}</pre>
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>
-  )
+  );
 }
 
-const ButtonOption = ({ href, text, onClick }) => (
+const ButtonOption = memo(({ href, text, onClick }) => (
   <Link href={href} onClick={onClick} className="w-full">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -58,48 +58,48 @@ const ButtonOption = ({ href, text, onClick }) => (
       exit={{ opacity: 0, x: '-100%' }}
       whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
       whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
+      style={{ willChange: "transform, opacity" }}
     >
       <span className="text-xl font-semibold">{text}</span>
       <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
     </motion.div>
   </Link>
- )
-}
+));
 
 export default function Component() {
-  const [step, setStep] = useState(0)
-  const [userType, setUserType] = useState(null)
-  const [direction, setDirection] = useState(0) // 初始为 0，确保第一次从中间淡入
+  const [step, setStep] = useState(0);
+  const [userType, setUserType] = useState(null);
+  const [direction, setDirection] = useState(0);
 
   useEffect(() => {
-    const timer1 = setTimeout(() => setStep(1), 1000)
-    const timer2 = setTimeout(() => setStep(2), 2000)
+    const timer1 = setTimeout(() => setStep(1), 1000);
+    const timer2 = setTimeout(() => setStep(2), 2000);
 
     return () => {
-      clearTimeout(timer1)
-      clearTimeout(timer2)
-    }
-  }, [])
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
 
   const handleUserTypeSelect = (type) => (e) => {
-    e.preventDefault()
-    setUserType(type)
-    setStep(3)
-    setDirection(1) // 设置为 1，后续从右侧飞入
-  }
+    e.preventDefault();
+    setUserType(type);
+    setStep(3);
+    setDirection(1);
+  };
 
   const handleBackToUserTypeSelection = () => {
     setStep(2);
     setUserType(null);
-    setDirection(-1); // 设置为 -1，后续从左侧飞入
+    setDirection(-1);
   };
 
   const pageVariants = {
     initial: (custom) => ({
       opacity: 0,
-      x: custom === 0 ? 0 : custom * 100 + '%', // 如果 custom 是 0，保持在中间
+      x: custom === 0 ? 0 : custom * 100 + '%',
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
@@ -116,18 +116,18 @@ export default function Component() {
         duration: 0.3,
       }
     })
-  }
+  };
 
   const pageTransition = {
     type: 'tween',
     ease: 'anticipate',
     duration: 0.5
-  }
+  };
 
   const containerVariants = {
     hidden: (custom) => ({
       opacity: 0,
-      y: custom === 0 ? 0 : 20, // 如果 custom 是 0，保持 y 位置不变
+      y: custom === 0 ? 0 : 20,
     }),
     visible: { 
       opacity: 1, 
@@ -148,7 +148,7 @@ export default function Component() {
         when: "beforeChildren",
       }
     })
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -161,7 +161,7 @@ export default function Component() {
         ease: "easeInOut"
       }
     })
-  }
+  };
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -179,7 +179,7 @@ export default function Component() {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
-              onAnimationComplete={() => setDirection(1)} // 动画完成后，将方向设置为 1
+              onAnimationComplete={() => setDirection(1)}
             >
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
@@ -241,7 +241,7 @@ export default function Component() {
               <motion.p
                 className="text-3xl font-light"
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y 0 }}
                 transition={{ delay: 0.3 }}
               >
                 我想...
@@ -273,5 +273,5 @@ export default function Component() {
         </AnimatePresence>
       </div>
     </ErrorBoundary>
-  )
+  );
 }
