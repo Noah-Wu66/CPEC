@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Frame, Home, BookOpen, LayoutPanelLeft } from 'lucide-react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 const Particles = () => {
@@ -53,13 +53,13 @@ function ErrorFallback({ error, resetErrorBoundary }) {
 const ButtonOption = ({ href, text, onClick }) => (
   <Link href={href} onClick={onClick} className="w-full">
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: '-100%' }}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, x: '-100%', scale: 0.95 }}
       whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
       whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group will-change-transform"
     >
       <span className="text-xl font-semibold">{text}</span>
       <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
@@ -70,7 +70,7 @@ const ButtonOption = ({ href, text, onClick }) => (
 export default function Component() {
   const [step, setStep] = useState(0)
   const [userType, setUserType] = useState(null)
-  const [direction, setDirection] = useState(0) // 初始为 0，确保第一次从中间淡入
+  const [direction, setDirection] = useState(0)
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
@@ -86,19 +86,19 @@ export default function Component() {
     e.preventDefault()
     setUserType(type)
     setStep(3)
-    setDirection(1) // 设置为 1，后续从右侧飞入
+    setDirection(1)
   }
 
   const handleBackToUserTypeSelection = () => {
     setStep(2);
     setUserType(null);
-    setDirection(-1); // 设置为 -1，后续从左侧飞入
+    setDirection(-1);
   };
 
   const pageVariants = {
     initial: (custom) => ({
       opacity: 0,
-      x: custom === 0 ? 0 : custom * 100 + '%', // 如果 custom 是 0，保持在中间
+      x: custom === 0 ? 0 : custom * 100 + '%',
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
@@ -126,14 +126,16 @@ export default function Component() {
   const containerVariants = {
     hidden: (custom) => ({
       opacity: 0,
-      y: custom === 0 ? 0 : 20, // 如果 custom 是 0，保持 y 位置不变
+      y: custom === 0 ? 0 : 20,
+      scale: 0.95,
     }),
     visible: { 
       opacity: 1, 
       y: 0,
+      scale: 1,
       transition: { 
         duration: 0.5, 
-        ease: "easeInOut",
+        ease: "easeOut",
         when: "beforeChildren",
         staggerChildren: 0.1
       }
@@ -141,6 +143,7 @@ export default function Component() {
     exit: (custom) => ({ 
       opacity: 0, 
       x: custom * -100 + '%',
+      scale: 0.95,
       transition: { 
         duration: 0.3, 
         ease: "easeInOut",
@@ -150,11 +153,12 @@ export default function Component() {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1 },
     exit: (custom) => ({ 
       opacity: 0, 
       x: custom * -100 + '%',
+      scale: 0.95,
       transition: {
         duration: 0.3,
         ease: "easeInOut"
@@ -171,19 +175,19 @@ export default function Component() {
           {step < 3 ? (
             <motion.div 
               key="page1"
-              className="flex flex-col items-center justify-center space-y-8"
+              className="flex flex-col items-center justify-center space-y-8 will-change-transform"
               custom={direction}
               initial="initial"
               animate="in"
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
-              onAnimationComplete={() => setDirection(1)} // 动画完成后，将方向设置为 1
+              onAnimationComplete={() => setDirection(1)}
             >
-              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction} className="will-change-transform">
                 <motion.h1 
                   variants={itemVariants}
-                  className="text-5xl font-bold text-center"
+                  className="text-5xl font-bold text-center will-change-transform"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
@@ -192,24 +196,24 @@ export default function Component() {
                 </motion.h1>
               </motion.div>
 
-              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction} className="will-change-transform">
                 {step >= 1 && (
                   <motion.p
                     variants={itemVariants}
-                    className="text-3xl font-light"
+                    className="text-3xl font-light will-change-transform"
                     initial={direction === -1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                   >
                     我是...
                   </motion.p>
                 )}
               </motion.div>
 
-              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction} className="will-change-transform">
                 {step >= 2 && (
                   <motion.div
-                    className="flex flex-col items-center space-y-4"
+                    className="flex flex-col items-center space-y-4 will-change-transform"
                   >
                     <ButtonOption href="#" text="普通用户" onClick={handleUserTypeSelect('normal')} />
                     <ButtonOption href="#" text="管理用户" onClick={handleUserTypeSelect('admin')} />
@@ -220,7 +224,7 @@ export default function Component() {
           ) : (
             <motion.div
               key="page2"
-              className="flex flex-col items-center justify-center space-y-8"
+              className="flex flex-col items-center justify-center space-y-8 will-change-transform"
               custom={direction}
               initial="initial"
               animate="in"
@@ -229,28 +233,28 @@ export default function Component() {
               transition={pageTransition}
             >
               <motion.h1 
-                className="text-5xl font-bold text-center"
+                className="text-5xl font-bold text-center will-change-transform"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.2, ease: "easeOut" }}
               >
                 我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
               </motion.h1>
 
               <motion.p
-                className="text-3xl font-light"
+                className="text-3xl font-light will-change-transform"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.3, ease: "easeOut" }}
               >
                 我想...
               </motion.p>
 
               <motion.div
-                className="flex flex-col items-center space-y-4"
+                className="flex flex-col items-center space-y-4 will-change-transform"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.4, ease: "easeOut" }}
               >
                 {userType === 'normal' ? (
                   <>
