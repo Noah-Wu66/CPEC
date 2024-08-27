@@ -10,23 +10,20 @@ const Particles = () => {
   const [particleCount, setParticleCount] = useState(25);
 
   useEffect(() => {
-    const updateParticleCount = () => setParticleCount(window.innerWidth > 768 ? 50 : 25);
-    updateParticleCount();
-    window.addEventListener('resize', updateParticleCount);
-    return () => window.removeEventListener('resize', updateParticleCount);
+    setParticleCount(window.innerWidth > 768 ? 50 : 25);
   }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {Array.from({ length: particleCount }).map((_, i) => (
+      {[...Array(particleCount)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute bg-blue-100 rounded-full"
           style={{
             width: Math.random() * 5 + 1,
             height: Math.random() * 5 + 1,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
+            top: ${Math.random() * 100}%,
+            left: ${Math.random() * 100}%,
           }}
           animate={{
             y: [0, Math.random() * 100 - 50],
@@ -39,6 +36,16 @@ const Particles = () => {
           }}
         />
       ))}
+    </div>
+  )
+}
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert" className="text-red-500">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   )
 }
@@ -60,94 +67,191 @@ const ButtonOption = ({ href, text, onClick }) => (
   </Link>
 )
 
-const MotionPage = ({ key, direction, children }) => (
-  <motion.div
-    key={key}
-    className="flex flex-col items-center justify-center space-y-8"
-    custom={direction}
-    initial="initial"
-    animate="in"
-    exit="out"
-    variants={{
-      initial: (custom) => ({
-        opacity: 0,
-        x: custom === 0 ? 0 : custom * 100 + '%',
-        scale: custom === 0 ? 0.8 : 1,
-      }),
-      in: { opacity: 1, x: 0, scale: 1 },
-      out: (custom) => ({ 
-        opacity: 0, 
-        x: custom * -100 + '%',
-        transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 }
-      })
-    }}
-    transition={{ type: 'tween', ease: 'anticipate', duration: 0.5 }}
-  >
-    {children}
-  </motion.div>
-);
-
 export default function Component() {
   const [step, setStep] = useState(0)
   const [userType, setUserType] = useState(null)
-  const [direction, setDirection] = useState(0)
+  const [direction, setDirection] = useState(0) // 初始为 0，确保第一次从中间淡入
 
   useEffect(() => {
-    const timers = [1000, 2000].map((time, idx) => setTimeout(() => setStep(idx + 1), time));
-    return () => timers.forEach(clearTimeout);
+    const timer1 = setTimeout(() => setStep(1), 1000)
+    const timer2 = setTimeout(() => setStep(2), 2000)
+
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+    }
   }, [])
 
   const handleUserTypeSelect = (type) => (e) => {
     e.preventDefault()
     setUserType(type)
     setStep(3)
-    setDirection(1)
+    setDirection(1) // 设置为 1，后续从右侧飞入
   }
 
   const handleBackToUserTypeSelection = () => {
-    setStep(2)
-    setUserType(null)
-    setDirection(-1)
+    setStep(2);
+    setUserType(null);
+    setDirection(-1); // 设置为 -1，后续从左侧飞入
+  };
+
+  const pageVariants = {
+    initial: (custom) => ({
+      opacity: 0,
+      x: custom === 0 ? 0 : custom * 100 + '%', // 如果 custom 是 0，保持在中间
+      scale: custom === 0 ? 0.8 : 1,
+    }),
+    in: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+    },
+    out: (custom) => ({ 
+      opacity: 0, 
+      x: custom * -100 + '%',
+      transition: {
+        type: 'tween',
+        ease: 'easeInOut',
+        duration: 0.3,
+      }
+    })
+  }
+
+  const pageTransition = {
+    type: 'tween',
+    ease: 'anticipate',
+    duration: 0.5
+  }
+
+  const containerVariants = {
+    hidden: (custom) => ({
+      opacity: 0,
+      y: custom === 0 ? 0 : 20, // 如果 custom 是 0，保持 y 位置不变
+    }),
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.5, 
+        ease: "easeInOut",
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      }
+    },
+    exit: (custom) => ({ 
+      opacity: 0, 
+      x: custom * -100 + '%',
+      transition: { 
+        duration: 0.3, 
+        ease: "easeInOut",
+        when: "beforeChildren",
+      }
+    })
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: (custom) => ({ 
+      opacity: 0, 
+      x: custom * -100 + '%',
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    })
   }
 
   return (
-    <ErrorBoundary FallbackComponent={({ error, resetErrorBoundary }) => (
-      <div role="alert" className="text-red-500">
-        <p>Something went wrong:</p>
-        <pre>{error.message}</pre>
-        <button onClick={resetErrorBoundary}>Try again</button>
-      </div>
-    )}>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 text-blue-800 overflow-hidden">
         <Particles />
         
         <AnimatePresence mode="wait" custom={direction}>
           {step < 3 ? (
-            <MotionPage key="page1" direction={direction}>
-              <motion.h1 className="text-5xl font-bold text-center" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-                欢迎使用<br />编辑组业务工作台
-              </motion.h1>
-              {step >= 1 && (
-                <motion.p className="text-3xl font-light" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }}>
-                  我是...
-                </motion.p>
-              )}
-              {step >= 2 && (
-                <motion.div className="flex flex-col items-center space-y-4">
-                  <ButtonOption href="#" text="普通用户" onClick={handleUserTypeSelect('normal')} />
-                  <ButtonOption href="#" text="管理用户" onClick={handleUserTypeSelect('admin')} />
-                </motion.div>
-              )}
-            </MotionPage>
+            <motion.div 
+              key="page1"
+              className="flex flex-col items-center justify-center space-y-8"
+              custom={direction}
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+              onAnimationComplete={() => setDirection(1)} // 动画完成后，将方向设置为 1
+            >
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
+                <motion.h1 
+                  variants={itemVariants}
+                  className="text-5xl font-bold text-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  欢迎使用<br />编辑组业务工作台
+                </motion.h1>
+              </motion.div>
+
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
+                {step >= 1 && (
+                  <motion.p
+                    variants={itemVariants}
+                    className="text-3xl font-light"
+                    initial={direction === -1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                  >
+                    我是...
+                  </motion.p>
+                )}
+              </motion.div>
+
+              <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
+                {step >= 2 && (
+                  <motion.div
+                    className="flex flex-col items-center space-y-4"
+                  >
+                    <ButtonOption href="#" text="普通用户" onClick={handleUserTypeSelect('normal')} />
+                    <ButtonOption href="#" text="管理用户" onClick={handleUserTypeSelect('admin')} />
+                  </motion.div>
+                )}
+              </motion.div>
+            </motion.div>
           ) : (
-            <MotionPage key="page2" direction={direction}>
-              <motion.h1 className="text-5xl font-bold text-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <motion.div
+              key="page2"
+              className="flex flex-col items-center justify-center space-y-8"
+              custom={direction}
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <motion.h1 
+                className="text-5xl font-bold text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
                 我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
               </motion.h1>
-              <motion.p className="text-3xl font-light" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+
+              <motion.p
+                className="text-3xl font-light"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
                 我想...
               </motion.p>
-              <motion.div className="flex flex-col items-center space-y-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+
+              <motion.div
+                className="flex flex-col items-center space-y-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
                 {userType === 'normal' ? (
                   <>
                     <ButtonOption href="#" text="查询个人信息" />
@@ -163,7 +267,7 @@ export default function Component() {
                 )}
                 <ButtonOption href="#" text="返回身份选择" onClick={handleBackToUserTypeSelection} />
               </motion.div>
-            </MotionPage>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
