@@ -73,11 +73,17 @@ export default function Component() {
   const [direction, setDirection] = useState(0)
 
   useEffect(() => {
-    const timer1 = setTimeout(() => setStep(1), 1000)
-    const timer2 = setTimeout(() => setStep(2), 2000)
-    return () => {
-      clearTimeout(timer1)
-      clearTimeout(timer2)
+    const savedUserType = localStorage.getItem('userType')
+    if (savedUserType) {
+      setUserType(savedUserType)
+      setStep(3)
+    } else {
+      const timer1 = setTimeout(() => setStep(1), 1000)
+      const timer2 = setTimeout(() => setStep(2), 2000)
+      return () => {
+        clearTimeout(timer1)
+        clearTimeout(timer2)
+      }
     }
   }, [])
 
@@ -86,12 +92,14 @@ export default function Component() {
     setUserType(type)
     setStep(3)
     setDirection(1)
+    localStorage.setItem('userType', type)
   }
 
   const handleBackToUserTypeSelection = () => {
     setStep(2);
     setUserType(null);
     setDirection(-1);
+    localStorage.removeItem('userType')
   };
 
   const pageVariants = {
