@@ -67,16 +67,7 @@ export default function Component() {
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -86,19 +86,19 @@ export default function Component() {
+    export default function Component() {
   
     const timer2 = setTimeout(() => setStep(2), 2000)
     return () => {
@@ -104,22 +95,7 @@ export default function Component() {
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -126,7 +126,7 @@ export default function Component() {
+    export default function Component() {
   
       opacity: 1,
       x: 0,
@@ -147,23 +123,7 @@ export default function Component() {
     }),
     visible: { 
       opacity: 1, 
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -178,7 +178,11 @@ export default function Component() {
-  
+      export default function Component() {
       y: 0,
       transition: { 
         duration: 0.5, 
@@ -214,17 +174,6 @@ export default function Component() {
             >
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
-
-    
-          
-            
-    
-
-          
-          Expand Down
-    
-    
-  
                   variants={itemVariants}
                   className="text-5xl font-bold text-center"
                   initial={{ opacity: 0, scale: 0.8 }}
