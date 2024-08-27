@@ -60,6 +60,7 @@ const ButtonOption = ({ href, text, onClick }) => (
       whileTap={{ scale: 0.95 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
+      style={{ willChange: 'opacity, transform', opacity: 0 }} // Added will-change and ensured initial opacity is 0
     >
       <span className="text-xl font-semibold">{text}</span>
       <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
@@ -74,7 +75,7 @@ export default function Component() {
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
-    const timer2 = setTimeout(() => setStep(2), 2000)
+    const timer2 = setTimeout(() => setStep(2), 2500) // Increased to 2500ms
 
     return () => {
       clearTimeout(timer1)
@@ -178,6 +179,7 @@ export default function Component() {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
+              onAnimationComplete={() => setDirection(1)}
             >
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
