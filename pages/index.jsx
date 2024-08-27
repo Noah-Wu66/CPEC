@@ -261,15 +261,16 @@ export default function Component() {
               >
                 {userType === 'normal' ? (
                   <>
-                    <ButtonOption href="#" text="查询个人信息" />
-                    <ButtonOption href="#" text="查询每月排班" />
-                    <ButtonOption href="#" text="访问软件大全" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/Nqm2dRfEwoo9rgxB0GYckYRjn1e?from=from_copylink" text="维护用户信息" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/JZmedJXMhoBRF7xAaYvcgQ8bnEU?from=from_copylink" text="查询每月排班" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/BFdKdJS8NoIreTxPRbAcYnvhnVc?from=from_copylink" text="查询质检积分" />
                   </>
                 ) : (
                   <>
-                    <ButtonOption href="#" text="管理个人信息" />
-                    <ButtonOption href="#" text="管理每月排班" />
-                    <ButtonOption href="#" text="访问软件大全" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/ABVfdd5qBo5dGUxolK7c4ZKSnue?from=from_copylink" text="管理用户信息" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/QkJrd4ztzobsF4xN4XRcnpHrnbf?from=from_copylink" text="管理每月排班" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/CSwwdksjgohxYSxOA4BcGEYtnwh?from=from_copylink" text="管理质检积分" />
+                    <ButtonOption href="https://sw8do1frcg1.feishu.cn/docx/WkswdcWaeoVDPhx3eDwcoe8Unxg?from=from_copylink" text="管理每月绩效" />
                   </>
                 )}
                 <ButtonOption href="#" text="返回身份选择" onClick={handleBackToUserTypeSelection} />
