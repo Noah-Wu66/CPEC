@@ -70,7 +70,7 @@ const ButtonOption = ({ href, text, onClick }) => (
 export default function Component() {
   const [step, setStep] = useState(0)
   const [userType, setUserType] = useState(null)
-  const [direction, setDirection] = useState(0) // 初始为 0，确保第一次从中间淡入
+  const [direction, setDirection] = useState(0)
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
@@ -86,19 +86,19 @@ export default function Component() {
     e.preventDefault()
     setUserType(type)
     setStep(3)
-    setDirection(1) // 设置为 1，后续从右侧飞入
+    setDirection(1)
   }
 
   const handleBackToUserTypeSelection = () => {
     setStep(2);
     setUserType(null);
-    setDirection(-1); // 设置为 -1，后续从左侧飞入
+    setDirection(-1);
   };
 
   const pageVariants = {
     initial: (custom) => ({
       opacity: 0,
-      x: custom === 0 ? 0 : custom * 100 + '%', // 如果 custom 是 0，保持在中间
+      x: custom === 0 ? 0 : custom * 100 + '%',
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
@@ -126,7 +126,7 @@ export default function Component() {
   const containerVariants = {
     hidden: (custom) => ({
       opacity: 0,
-      y: custom === 0 ? 0 : 20, // 如果 custom 是 0，保持 y 位置不变
+      y: custom === 0 ? 0 : 20,
     }),
     visible: { 
       opacity: 1, 
@@ -178,7 +178,11 @@ export default function Component() {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
-              onAnimationComplete={() => setDirection(1)} // 动画完成后，将方向设置为 1
+              style={{ visibility: 'hidden' }}
+              onAnimationComplete={(definition) => {
+                definition.target.style.visibility = 'visible';
+                setDirection(1)
+              }} 
             >
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
