@@ -65,7 +65,8 @@ const ButtonOption = ({ href, text, onClick }) => (
       <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-100" />
     </motion.div>
   </Link>
-)
+ )
+}
 
 export default function Component() {
   const [step, setStep] = useState(0)
