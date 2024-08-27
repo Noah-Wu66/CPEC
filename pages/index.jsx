@@ -58,7 +58,7 @@ const ButtonOption = ({ href, text, onClick }) => (
       exit={{ opacity: 0, x: '-100%' }}
       whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
       whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
       className="flex items-center justify-between w-80 py-4 px-6 bg-white bg-opacity-50 backdrop-blur-lg rounded-xl shadow-lg hover:bg-opacity-70 transition duration-100 ease-in-out group"
     >
       <span className="text-xl font-semibold">{text}</span>
