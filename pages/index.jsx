@@ -178,11 +178,6 @@ export default function Component() {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
-              style={{ visibility: 'hidden' }}
-              onAnimationComplete={(definition) => {
-                definition.target.style.visibility = 'visible';
-                setDirection(1)
-              }} 
             >
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 <motion.h1 
