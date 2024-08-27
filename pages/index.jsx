@@ -1,14 +1,18 @@
 'use client'
+
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { ErrorBoundary } from 'react-error-boundary'
+
 const Particles = () => {
   const [particleCount, setParticleCount] = useState(25);
+
   useEffect(() => {
     setParticleCount(window.innerWidth > 768 ? 50 : 25);
   }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden">
       {[...Array(particleCount)].map((_, i) => (
@@ -18,8 +22,8 @@ const Particles = () => {
           style={{
             width: Math.random() * 5 + 1,
             height: Math.random() * 5 + 1,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
+            top: ${Math.random() * 100}%,
+            left: ${Math.random() * 100}%,
           }}
           animate={{
             y: [0, Math.random() * 100 - 50],
@@ -35,6 +39,7 @@ const Particles = () => {
     </div>
   )
 }
+
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
     <div role="alert" className="text-red-500">
@@ -44,6 +49,7 @@ function ErrorFallback({ error, resetErrorBoundary }) {
     </div>
   )
 }
+
 const ButtonOption = ({ href, text, onClick }) => (
   <Link href={href} onClick={onClick} className="w-full">
     <motion.div
@@ -60,6 +66,7 @@ const ButtonOption = ({ href, text, onClick }) => (
     </motion.div>
   </Link>
 )
+
 export default function Component() {
   const [step, setStep] = useState(0)
   const [userType, setUserType] = useState(null)
@@ -67,14 +74,14 @@ export default function Component() {
 
   useEffect(() => {
     const timer1 = setTimeout(() => setStep(1), 1000)
-    export default function Component() {
-  
     const timer2 = setTimeout(() => setStep(2), 2000)
+
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
     }
   }, [])
+
   const handleUserTypeSelect = (type) => (e) => {
     e.preventDefault()
     setUserType(type)
@@ -95,8 +102,6 @@ export default function Component() {
       scale: custom === 0 ? 0.8 : 1,
     }),
     in: {
-    export default function Component() {
-  
       opacity: 1,
       x: 0,
       scale: 1,
@@ -111,11 +116,13 @@ export default function Component() {
       }
     })
   }
+
   const pageTransition = {
     type: 'tween',
     ease: 'anticipate',
     duration: 0.5
   }
+
   const containerVariants = {
     hidden: (custom) => ({
       opacity: 0,
@@ -123,7 +130,6 @@ export default function Component() {
     }),
     visible: { 
       opacity: 1, 
-      export default function Component() {
       y: 0,
       transition: { 
         duration: 0.5, 
@@ -142,6 +148,7 @@ export default function Component() {
       }
     })
   }
+
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -154,6 +161,7 @@ export default function Component() {
       }
     })
   }
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 text-blue-800 overflow-hidden">
@@ -183,6 +191,7 @@ export default function Component() {
                   欢迎使用<br />编辑组业务工作台
                 </motion.h1>
               </motion.div>
+
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 {step >= 1 && (
                   <motion.p
@@ -196,6 +205,7 @@ export default function Component() {
                   </motion.p>
                 )}
               </motion.div>
+
               <motion.div layout variants={containerVariants} initial="hidden" animate="visible" exit="exit" custom={direction}>
                 {step >= 2 && (
                   <motion.div
@@ -226,6 +236,7 @@ export default function Component() {
               >
                 我是...<br />{userType === 'normal' ? '普通用户' : '管理用户'}
               </motion.h1>
+
               <motion.p
                 className="text-3xl font-light"
                 initial={{ opacity: 0, y: 20 }}
@@ -234,6 +245,7 @@ export default function Component() {
               >
                 我想...
               </motion.p>
+
               <motion.div
                 className="flex flex-col items-center space-y-4"
                 initial={{ opacity: 0, y: 20 }}
