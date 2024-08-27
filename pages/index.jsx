@@ -22,8 +22,8 @@ const Particles = () => {
           style={{
             width: Math.random() * 5 + 1,
             height: Math.random() * 5 + 1,
-            top: ${Math.random() * 100}%,
-            left: ${Math.random() * 100}%,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
           }}
           animate={{
             y: [0, Math.random() * 100 - 50],
